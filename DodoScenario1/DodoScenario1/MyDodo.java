@@ -14,7 +14,7 @@ public class MyDodo extends Dodo
     }
 
     public void act() {
-        // Lasă-l gol pentru moment
+        
     }
 
     public void move() {
@@ -34,6 +34,9 @@ public class MyDodo extends Dodo
         }
         return true;
     }
+    public boolean frontIsClear() {
+    return canMove();
+}
 
     public void hatchEgg() {
         if (onEgg()) {
@@ -86,7 +89,123 @@ public class MyDodo extends Dodo
         turn180();
         return esteGrau;
     }
-
+    
+        public void gotoEgg() {
+        while (!onEgg()) {
+            move();
+        }
     }
+
+
+    
+    public void walkToWorldEdge() {
+        while (frontIsClear()) {
+            move();
+        }
+    }
+
+    
+    public void goBackToStartOfRowAndFaceBack() {
+        turn180();
+        walkToWorldEdge();
+        turn180();
+    }
+
+    
+    public void walkToWorldEdgeClimbingOverFences() {
+        while (frontIsClear()) {
+            if (fenceAhead()) {
+                climbOverFence();
+            } else {
+                move();
+            }
+        }
+    }
+
+   
+    public void pickUpGrainsAndPrintCoordinates() {
+        while (frontIsClear()) {
+            if (onGrain()) {
+                pickUpGrain();
+                System.out.println("Graan op: (" + getX() + ", " + getY() + ")");
+            }
+            move();
+        }
+        if (onGrain()) {
+            pickUpGrain();
+            System.out.println("Graan op: (" + getX() + ", " + getY() + ")");
+        }
+    }
+
+    
+    public void stepOneCellBackwards() {
+        turn180();
+        move();
+        turn180();
+    }
+
+    
+    public void geenDubbeleEieren() {
+        while (frontIsClear()) {
+            if (nestPresent() && !onEgg()) {
+                getEgg();
+            }
+            move();
+        }
+        if (nestPresent() && !onEgg()) {
+            getEgg();
+        }
+    }
+
+    
+    public void naarNestEnHekkenOntwijken() {
+        while (frontIsClear()) {
+            if (nestPresent()) {
+                getEgg();
+                break;
+            } else if (fenceAhead()) {
+                climbOverFence();
+            } else {
+                move();
+            }
+        }
+    }
+
+    
+    public void walkAroundFencedArea() {
+        while (!onEgg()) {
+            if (leftIsClear()) {
+                turnLeft();
+                move();
+            } else if (frontIsClear()) {
+                move();
+            } else {
+                turnRight();
+            }
+        }
+    }
+
+    
+    public boolean leftIsClear() {
+        turnLeft();
+        boolean clear = frontIsClear();
+        turnRight();
+        return clear;
+    }
+
+    public void turnRight() {
+        turnLeft();
+        turnLeft();
+        turnLeft();
+    }
+    public boolean nestPresent() {
+        return getOneObjectAtOffset(0, 0, Nest.class) != null;
+    }
+
+   
+
+   
+}
+    
 
    
