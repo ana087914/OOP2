@@ -207,7 +207,24 @@ public class MyDodo extends Dodo
         turnLeft();
     }
 }
+public boolean locationReached(int x, int y) {
+    return getX() == x && getY() == y;
+}
 
+public void goToLocation(int coordX, int coordY) {
+    while (!locationReached(coordX, coordY)) {
+        if (getX() < coordX) {
+            setDirection(EAST);
+        } else if (getX() > coordX) {
+            setDirection(WEST);
+        } else if (getY() < coordY) {
+            setDirection(SOUTH);
+        } else if (getY() > coordY) {
+            setDirection(NORTH);
+        }
+        move();
+    }
+}
    
 }
     
