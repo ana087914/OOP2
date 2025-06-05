@@ -233,6 +233,20 @@ public void goToLocation(int coordX, int coordY) {
         return false;
     }
 }
+public int countEggsInRow() {
+    int count = 0;
+    while (frontIsClear()) {
+        if (onEgg()) {
+            count++;
+        }
+        move();
+    }
+    if (onEgg()) {
+        count++;
+    }
+    goBackToStartOfRowAndFaceBack();
+    return count;
+}
 
 }
     
