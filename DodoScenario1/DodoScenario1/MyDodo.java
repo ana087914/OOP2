@@ -225,7 +225,15 @@ public void goToLocation(int coordX, int coordY) {
         move();
     }
 }
-   
+  public boolean validCoordinates(int x, int y) {
+    if (x >= 0 && x < getWorld().getWidth() && y >= 0 && y < getWorld().getHeight()) {
+        return true;
+    } else {
+        showError("Invalid coordinates");
+        return false;
+    }
+}
+
 }
     
 
