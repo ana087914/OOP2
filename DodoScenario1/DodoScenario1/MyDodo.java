@@ -202,7 +202,11 @@ public class MyDodo extends Dodo
         return getOneObjectAtOffset(0, 0, Nest.class) != null;
     }
 
-   
+   public void faceEast() {
+    while (getDirection() != EAST) {
+        turnLeft();
+    }
+}
 
    
 }
