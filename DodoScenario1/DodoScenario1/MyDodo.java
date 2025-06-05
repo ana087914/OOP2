@@ -247,7 +247,19 @@ public int countEggsInRow() {
     goBackToStartOfRowAndFaceBack();
     return count;
 }
-
+public void eggTrailToNest() {
+    while (!nestPresent()) {
+        if (onEgg()) {
+            move();
+        } else {
+            showError("Het spoor is onderbroken!");
+            break;
+        }
+    }
+    if (nestPresent()) {
+        showCompliment("Nest gevonden!");
+    }
+}
 }
     
 
