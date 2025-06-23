@@ -263,6 +263,75 @@ public class MyDodo extends Dodo
                 move();
                 showCompliment("Nest gevonden!");
             }
+        }}
+       public void layTrailOfEggs(int n) {
+    if (n <= 0) {
+        showError("Aantal eieren moet positief zijn.");
+        return;
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (canLayEgg()) {
+            layEgg();
         }
-    }}
+        if (i < n - 1) {
+            if (canMove()) {
+                move();
+            } else {
+                showError("Kan niet verder bewegen, obstakel of rand bereikt.");
+                return;
+            }
+        }
+    }
+}
+public void moveDown() {
+    setDirection(SOUTH);
+    move();
+    setDirection(EAST);
+}
+
+public void countAllEggsInWorld() {
+    int total = 0;
+    int rows = getWorld().getHeight();
+
+    goToLocation(0, 0);
+    setDirection(EAST);
+
+    for (int i = 0; i < rows; i++) {
+        total += countEggsInRow();
+        if (i < rows - 1) {
+            moveDown();
+        }
+    }
+
+    System.out.println("Eieren in de wereld: " + total);
+}
+public void findRowWithMostEggs() {
+    int max = 0;
+    int besteRij = 0;
+    int rows = getWorld().getHeight();
+
+    goToLocation(0, 0);
+    setDirection(EAST);
+
+    for (int i = 0; i < rows; i++) {
+        int aantal = countEggsInRow();
+        if (aantal > max) {
+            max = aantal;
+            besteRij = i;
+        }
+        if (i < rows - 1) {
+            moveDown();
+        }
+    }
+
+    System.out.println("Rij met meeste eieren: " + besteRij);
+}
+
+
+    } 
+
+    
+
+
 
