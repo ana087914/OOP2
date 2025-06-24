@@ -366,6 +366,27 @@ public void moveRandomly() {
         }
     }
 }
+public int[] findClosestEggLocation() {
+    Egg closest = null;
+    int minDistance = Integer.MAX_VALUE;
+
+    for (Object obj : getWorld().getObjects(Egg.class)) {
+        Egg egg = (Egg) obj;
+        int dx = Math.abs(egg.getX() - getX());
+        int dy = Math.abs(egg.getY() - getY());
+        int dist = dx + dy;
+
+        if (dist < minDistance) {
+            minDistance = dist;
+            closest = egg;
+        }
+    }
+
+    if (closest != null) {
+        return new int[]{closest.getX(), closest.getY()};
+    }
+    return null; 
+}
 
 
 }
