@@ -85,6 +85,9 @@ public abstract class Dodo extends Actor
         }
         return maybeEgg;
     }
+    public void updateScores(int score1, int score2){
+        ((Mauritius) getWorld()).updateScore(score1,score2);
+    }
 
     public Grain pickUpGrain() {
         Grain maybeGrain = getActor( Grain.class );

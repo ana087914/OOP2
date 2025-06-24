@@ -7,6 +7,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class MyDodo extends Dodo
 {
     private int myNrOfEggsHatched;
+private int myScore;
+private int myNrOfStepsTaken;
 
     public MyDodo() {
         super(EAST);
@@ -18,12 +20,14 @@ public class MyDodo extends Dodo
     }
 
     public void move() {
-        if (canMove()) {
-            step();
-        } else {
-            showError("I'm stuck!");
-        }
+    if (canMove()) {
+        step();
+        myNrOfStepsTaken++; 
+    } else {
+        showError("I'm stuck!");
     }
+}
+
 
     public boolean canMove() {
         if (borderAhead()) {
@@ -209,19 +213,23 @@ public class MyDodo extends Dodo
     }
 
     public void goToLocation(int coordX, int coordY) {
-        while (!locationReached(coordX, coordY)) {
-            if (getX() < coordX) {
-                setDirection(EAST);
-            } else if (getX() > coordX) {
-                setDirection(WEST);
-            } else if (getY() < coordY) {
-                setDirection(SOUTH);
-            } else if (getY() > coordY) {
-                setDirection(NORTH);
-            }
+    while (!locationReached(coordX, coordY) && myNrOfStepsTaken < Mauritius.MAXSTEPS) {
+        if (getX() < coordX) {
+            setDirection(EAST);
+        } else if (getX() > coordX) {
+            setDirection(WEST);
+        } else if (getY() < coordY) {
+            setDirection(SOUTH);
+        } else if (getY() > coordY) {
+            setDirection(NORTH);
+        }
+
+        if (myNrOfStepsTaken < Mauritius.MAXSTEPS) {
             move();
         }
     }
+}
+
 
     public boolean validCoordinates(int x, int y) {
         if (x >= 0 && x < getWorld().getWidth() && y >= 0 && y < getWorld().getHeight()) {
@@ -307,29 +315,66 @@ public void countAllEggsInWorld() {
     System.out.println("Eieren in de wereld: " + total);
 }
 public void findRowWithMostEggs() {
+  
     int max = 0;
-    int besteRij = 0;
-    int rows = getWorld().getHeight();
+    int bestRow = getY();
+    
+    faceEast(); 
 
-    goToLocation(0, 0);
-    setDirection(EAST);
-
-    for (int i = 0; i < rows; i++) {
-        int aantal = countEggsInRow();
-        if (aantal > max) {
-            max = aantal;
-            besteRij = i;
+    for (int i = 0; i < getWorld().getHeight(); i++) {
+        int count = countEggsInRow();
+        if (count > max) {
+            max = count;
+            bestRow = getY();
         }
-        if (i < rows - 1) {
-            moveDown();
+
+        if (i < getWorld().getHeight() - 1) {
+            moveDown(); 
         }
     }
 
-    System.out.println("Rij met meeste eieren: " + besteRij);
+     System.out.println("Rij met meeste eieren: " + bestRow);
 }
 
 
-    } 
+public void getScore(int score1, int score2) {
+    updateScores(Mauritius.MAXSTEPS -myNrOfStepsTaken,myScore);
+    System.out.println("Huidige score: " + score1 + " punten");
+    System.out.println("Aantal stappen gezet: " + score2);
+}
+
+
+public void moveRandomly() {
+    while (myNrOfStepsTaken < Mauritius.MAXSTEPS) {
+        int dir = randomDirection();
+        setDirection(dir);
+
+        if (!borderAhead() && !fenceAhead()) {
+            move();
+            myNrOfStepsTaken++;
+
+            if (onEgg()) {
+                Egg e = pickUpEgg();
+                myScore+=e.getValue();
+                // if (e instanceof BlueEgg) {
+                    // myScore += 1;
+                // } else if (e instanceof GoldenEgg) {
+                    // myScore += 5;
+                // }
+                getScore(myScore, myNrOfStepsTaken);
+            }
+        }
+    }
+}
+
+
+}
+
+
+
+
+
+     
 
     
 

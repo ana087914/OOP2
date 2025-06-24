@@ -56,6 +56,12 @@ public class Mauritius extends World
         WORLD_WIDTH  = WORLD_READER.getWorldWidth();
         WORLD_HEIGHT = WORLD_READER.getWorldHeight();
     }
+    public void updateScore(int ... scores){
+        theScoreboard.updateScore(scores);
+    }
+    private void addScoreboard(){
+        addObject( theScoreboard, 2 , getHeight()-1);
+    }
 
     /**
      * Constructor for objects of class ChickenWorld.
@@ -67,6 +73,7 @@ public class Mauritius extends World
             Nest.class, Egg.class, Fence.class);        
         populate();
         prepare();
+        addScoreboard();
     }
 
     public static void traceOn() {
@@ -81,9 +88,7 @@ public class Mauritius extends World
         return traceOn;
     }
 
-    public void updateScore( int ... scores ){
-        theScoreboard.updateScore( scores );
-    }
+    
 
     private Actor charToActor( char c ) {
         MyDodo newDodo;
