@@ -387,7 +387,24 @@ public int[] findClosestEggLocation() {
     }
     return null; 
 }
+public void smartCollectEggs() {
+    while (myNrOfStepsTaken < Mauritius.MAXSTEPS) {
+        int[] target = findClosestEggLocation();
 
+        if (target == null) {
+            break; 
+        }
+
+        goToLocation(target[0], target[1]); 
+       
+
+        if (onEgg()) {
+            Egg e = pickUpEgg();
+            myScore += e.getValue();
+            getScore(myScore, myNrOfStepsTaken);
+        }
+    }
+}
 
 }
 
